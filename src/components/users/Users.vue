@@ -102,7 +102,6 @@
       width="50%"
       @close="addDialogClosed"
     >
-      <!-- 内容主体区域 -->
       <el-form
         :model="addForm"
         :rules="addFormRules"
@@ -122,7 +121,6 @@
           <el-input v-model="addForm.mobile"></el-input>
         </el-form-item>
       </el-form>
-      <!-- 底部区域 -->
       <span slot="footer" class="dialog-footer">
         <el-button @click="addDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="addUser">确 定</el-button>
@@ -420,7 +418,6 @@ export default {
     // 展示分配角色的对话框
     async setRole(userInfo) {
       this.userInfo = userInfo
-
       // 在展示对话框之前，获取所有角色的列表
       const { data: res } = await this.$http.get('roles')
       if (res.meta.status !== 200) {
@@ -442,7 +439,7 @@ export default {
           rid: this.selectedRoleId
         }
       )
-
+      // console.log(res)
       if (res.meta.status !== 200) {
         return this.$message.error('更新角色失败！')
       }
