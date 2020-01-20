@@ -23,7 +23,9 @@
         index-text="#"
         border
         :show-row-hover="false"
+        class="treeTable"
       >
+        <!-- 是否有效 -->
         <template slot="isok" slot-scope="scope">
           <i
             style="color: lightgreen;"
@@ -32,8 +34,41 @@
           ></i>
           <i style="color: lightgreen;" class="el-icon-error" v-else></i>
         </template>
+        <!-- 排序 -->
+        <template slot="order" slot-scope="scope">
+          <el-tag type="" size="mini" v-if="scope.row.cat_level === 0">
+            一级
+          </el-tag>
+          <el-tag
+            type="success"
+            size="mini"
+            v-else-if="scope.row.cat_level === 1"
+          >
+            二级
+          </el-tag>
+          <el-tag type="warning" size="mini" v-else>三级</el-tag>
+        </template>
+        <!-- 操作 -->
+        <template slot="opt" slot-scope="">
+          <el-button type="primary" icon="el-icon-edit" size="mini"
+            >编辑</el-button
+          >
+          <el-button type="danger" icon="el-icon-delete" size="mini"
+            >删除</el-button
+          >
+        </template>
       </tree-table>
       <!-- 分页区域 -->
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="queryInfo.pagenum"
+        :page-sizes="[3, 10, 15]"
+        :page-size="queryInfo.pagesize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+      >
+      </el-pagination>
     </el-card>
   </div>
 </template>
@@ -62,6 +97,16 @@ export default {
           label: '是否有效',
           type: 'template',
           template: 'isok'
+        },
+        {
+          label: '排序',
+          type: 'template',
+          template: 'order'
+        },
+        {
+          label: '操作',
+          type: 'template',
+          template: 'opt'
         }
       ]
     }
@@ -78,8 +123,20 @@ export default {
       if (res.meta.status !== 200) return this.$message.error('获取数据失败')
       this.cateList = res.data.result
       this.total = res.data.total
+    },
+    handleSizeChange(newPageSize) {
+      this.queryInfo.pagesize = newPageSize
+      this.getCateList()
+    },
+    handleCurrentChange(newPageNum) {
+      this.queryInfo.pagenum = newPageNum
+      this.getCateList()
     }
   }
 }
 </script>
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.treeTable {
+  margin-top: 15px;
+}
+</style>
