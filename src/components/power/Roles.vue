@@ -160,7 +160,15 @@
       width="50%"
       @close="setRightDialogClosed"
     >
-      <el-tree ref="treeRef" :default-checked-keys="defKeys" node-key="id" show-checkbox default-expand-all :data="rightsList" :props="treeProps" ></el-tree>
+      <el-tree
+        ref="treeRef"
+        :default-checked-keys="defKeys"
+        node-key="id"
+        show-checkbox
+        default-expand-all
+        :data="rightsList"
+        :props="treeProps"
+      ></el-tree>
       <span slot="footer" class="dialog-footer">
         <el-button @click="setRightDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="allotRights">确 定</el-button>
@@ -339,10 +347,16 @@ export default {
     },
     // 点击分配权限确认
     async allotRights() {
-      const keys = [...this.$refs.treeRef.getCheckedKeys(), ...this.$refs.treeRef.getHalfCheckedKeys()]
+      const keys = [
+        ...this.$refs.treeRef.getCheckedKeys(),
+        ...this.$refs.treeRef.getHalfCheckedKeys()
+      ]
       // console.log(keys)
       const idStr = keys.join(',')
-      const { data: res } = await this.$http.post(`roles/${this.roleId}/rights`, { rids: idStr })
+      const { data: res } = await this.$http.post(
+        `roles/${this.roleId}/rights`,
+        { rids: idStr }
+      )
       if (res.meta.status !== 200) {
         return this.$message.error('分配权限失败！')
       }
