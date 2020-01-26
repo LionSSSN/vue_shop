@@ -19,7 +19,7 @@
       <!-- 角色列表区域 -->
       <el-table :data="roleList" border stripe>
         <!-- 展开列 -->
-        <el-table-column type="expand">
+        <el-table-column type="expand" label="可展开" width="65px">
           <template slot-scope="scope">
             <el-row
               :class="['bdBottom', i1 === 0 ? 'bdTop' : '', 'vCenter']"
@@ -70,7 +70,7 @@
           </template>
         </el-table-column>
         <!-- 索引列 -->
-        <el-table-column label="序号" type="index"></el-table-column>
+        <el-table-column label="#" type="index" align="center"></el-table-column>
         <el-table-column label="角色名称" prop="roleName"></el-table-column>
         <el-table-column label="角色描述" prop="roleDesc"></el-table-column>
         <el-table-column label="操作" width="300px">

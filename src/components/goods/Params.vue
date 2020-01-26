@@ -48,7 +48,7 @@
           <!-- 动态参数表格 -->
           <el-table :data="manyTableData" border stripe>
             <!-- 展开行 -->
-            <el-table-column type="expand">
+            <el-table-column type="expand" label="可展开" width="65px">
               <template slot-scope="scope">
                 <!-- 循环渲染Tag标签 -->
                 <el-tag
@@ -80,7 +80,11 @@
               </template>
             </el-table-column>
             <!-- 索引列 -->
-            <el-table-column type="index"></el-table-column>
+            <el-table-column
+              type="index"
+              label="#"
+              align="center"
+            ></el-table-column>
             <el-table-column
               label="参数名称"
               prop="attr_name"
@@ -321,14 +325,14 @@ export default {
       }
 
       res.data.forEach(item => {
-        item.attr_vals = item.attr_vals ? item.attr_vals.split(' ') : []
+        item.attr_vals = item.attr_vals ? item.attr_vals.split(',') : []
         // 控制文本框的显示与隐藏
         item.inputVisible = false
         // 文本框中输入的值
         item.inputValue = ''
       })
 
-      // console.log(res.data)
+      console.log(res.data)
       if (this.activeName === 'many') {
         this.manyTableData = res.data
       } else {
